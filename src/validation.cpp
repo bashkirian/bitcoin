@@ -4524,7 +4524,7 @@ BlockValidationState TestBlockValidity(
         return state;
     }
 
-    // For signets CheckBlock() verifies the challenge iff fCheckPow is set.
+    // For signets CheckBlock() verifies the challenge if fCheckPow is set.
     if (!CheckBlock(block, state, chainstate.m_chainman.GetConsensus(), /*fCheckPow=*/check_pow, /*fCheckMerkleRoot=*/check_merkle_root)) {
         // This should never happen, but belt-and-suspenders don't approve the
         // block if it does.

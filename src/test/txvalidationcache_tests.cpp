@@ -143,7 +143,7 @@ static void ValidateCheckInputsForAllFlags(const CTransaction &tx, script_verify
             test_flags |= SCRIPT_VERIFY_P2SH;
         }
         bool ret = CheckInputScripts(tx, state, &active_coins_tip, test_flags, true, add_to_cache, txdata, validation_cache, nullptr);
-        // CheckInputScripts should succeed iff test_flags doesn't intersect with
+        // CheckInputScripts should succeed if test_flags doesn't intersect with
         // failing_flags
         bool expected_return_value = !(test_flags & failing_flags);
         BOOST_CHECK_EQUAL(ret, expected_return_value);
@@ -225,7 +225,7 @@ BOOST_FIXTURE_TEST_CASE(checkinputs_test, Dersig100Setup)
         BOOST_CHECK(CheckInputScripts(CTransaction(spend_tx), state, &m_node.chainman->ActiveChainstate().CoinsTip(), SCRIPT_VERIFY_P2SH | SCRIPT_VERIFY_DERSIG, true, true, ptd_spend_tx, m_node.chainman->m_validation_cache, &scriptchecks));
         BOOST_CHECK_EQUAL(scriptchecks.size(), 1U);
 
-        // Test that CheckInputScripts returns true iff DERSIG-enforcing flags are
+        // Test that CheckInputScripts returns true if DERSIG-enforcing flags are
         // not present.  Don't add these checks to the cache, so that we can
         // test later that block validation works fine in the absence of cached
         // successes.

@@ -177,7 +177,7 @@ void AddrManImpl::Serialize(Stream& s_) const
 
     s << static_cast<uint8_t>(FILE_FORMAT);
 
-    // Increment `lowest_compatible` iff a newly introduced format is incompatible with
+    // Increment `lowest_compatible` if a newly introduced format is incompatible with
     // the previous one.
     static constexpr uint8_t lowest_compatible = Format::V4_MULTIPORT;
     s << static_cast<uint8_t>(INCOMPATIBILITY_BASE + lowest_compatible);

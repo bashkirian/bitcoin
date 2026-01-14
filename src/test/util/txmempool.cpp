@@ -92,7 +92,7 @@ std::optional<std::string> CheckPackageMempoolAcceptResult(const Package& txns,
             }
         }
 
-        // m_vsize and m_base_fees should exist iff the result was VALID or MEMPOOL_ENTRY
+        // m_vsize and m_base_fees should exist if the result was VALID or MEMPOOL_ENTRY
         const bool mempool_entry{atmp_result.m_result_type == MempoolAcceptResult::ResultType::MEMPOOL_ENTRY};
         if (atmp_result.m_base_fees.has_value() != (valid || mempool_entry)) {
             return strprintf("tx %s result should %shave m_base_fees", wtxid.ToString(), valid || mempool_entry ? "" : "not ");
@@ -101,13 +101,13 @@ std::optional<std::string> CheckPackageMempoolAcceptResult(const Package& txns,
             return strprintf("tx %s result should %shave m_vsize", wtxid.ToString(), valid || mempool_entry ? "" : "not ");
         }
 
-        // m_other_wtxid should exist iff the result was DIFFERENT_WITNESS
+        // m_other_wtxid should exist if the result was DIFFERENT_WITNESS
         const bool diff_witness{atmp_result.m_result_type == MempoolAcceptResult::ResultType::DIFFERENT_WITNESS};
         if (atmp_result.m_other_wtxid.has_value() != diff_witness) {
             return strprintf("tx %s result should %shave m_other_wtxid", wtxid.ToString(), diff_witness ? "" : "not ");
         }
 
-        // m_effective_feerate and m_wtxids_fee_calculations should exist iff the result was valid
+        // m_effective_feerate and m_wtxids_fee_calculations should exist if the result was valid
         // or if the failure was TX_RECONSIDERABLE
         const bool valid_or_reconsiderable{atmp_result.m_result_type == MempoolAcceptResult::ResultType::VALID ||
                     atmp_result.m_state.GetResult() == TxValidationResult::TX_RECONSIDERABLE};
@@ -121,7 +121,7 @@ std::optional<std::string> CheckPackageMempoolAcceptResult(const Package& txns,
         }
 
         if (mempool) {
-            // The tx by txid should be in the mempool iff the result was not INVALID.
+            // The tx by txid should be in the mempool if the result was not INVALID.
             const bool txid_in_mempool{atmp_result.m_result_type != MempoolAcceptResult::ResultType::INVALID};
             if (mempool->exists(tx->GetHash()) != txid_in_mempool) {
                 return strprintf("tx %s should %sbe in mempool", wtxid.ToString(), txid_in_mempool ? "" : "not ");

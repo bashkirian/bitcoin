@@ -421,7 +421,7 @@ void TxOrphanageImpl::EraseForPeer(NodeId peer)
 
     unsigned int num_ann{0};
     while (it != index_by_peer.end() && it->m_announcer == peer) {
-        // Delete item, cleaning up m_outpoint_to_orphan_wtxids iff this entry is unique by wtxid.
+        // Delete item, cleaning up m_outpoint_to_orphan_wtxids if this entry is unique by wtxid.
         Erase<ByPeer>(it++);
         num_ann += 1;
     }
