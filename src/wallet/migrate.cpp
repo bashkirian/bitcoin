@@ -723,7 +723,7 @@ bool BerkeleyRODatabase::Backup(const std::string& dest) const
         }
 
         fs::copy_file(src, dst, fs::copy_options::overwrite_existing);
-        LogPrintf("copied %s to %s\n", fs::PathToString(m_filepath), fs::PathToString(dst));
+        LogInfo("copied %s to %s\n", fs::PathToString(m_filepath), fs::PathToString(dst));
         return true;
     } catch (const fs::filesystem_error& e) {
         LogWarning("error copying %s to %s - %s\n", fs::PathToString(m_filepath), fs::PathToString(dst), e.code().message());
@@ -747,7 +747,7 @@ bool BerkeleyROBatch::ReadKey(DataStream&& key, DataStream& value)
 bool BerkeleyROBatch::HasKey(DataStream&& key)
 {
     SerializeData key_data{key.begin(), key.end()};
-    return m_database.m_records.count(key_data) > 0;
+    return m_database.m_records.contains(key_data);
 }
 
 BerkeleyROCursor::BerkeleyROCursor(const BerkeleyRODatabase& database, std::span<const std::byte> prefix)

@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2022 The Bitcoin Core developers
+// Copyright (c) 2009-present The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -423,7 +423,7 @@ void TxConfirmStats::Read(AutoFile& filein, size_t numBuckets)
     // Read data file and do some very basic sanity checking
     // buckets and bucketMap are not updated yet, so don't access them
     // If there is a read failure, we'll just discard this entire object anyway
-    size_t maxConfirms, maxPeriods;
+    uint64_t maxConfirms, maxPeriods;
 
     // The current version will store the decay with each individual TxConfirmStats and also keep a scale factor
     filein >> Using<EncodedDoubleFormatter>(decay);
@@ -598,7 +598,7 @@ void CBlockPolicyEstimator::processTransaction(const NewMempoolTransactionInfo& 
     LOCK(m_cs_fee_estimator);
     const unsigned int txHeight = tx.info.txHeight;
     const auto& hash = tx.info.m_tx->GetHash();
-    if (mapMemPoolTxs.count(hash)) {
+    if (mapMemPoolTxs.contains(hash)) {
         LogDebug(BCLog::ESTIMATEFEE, "Blockpolicy error mempool tx %s already being tracked\n",
                  hash.ToString());
         return;
